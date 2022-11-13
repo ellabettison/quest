@@ -1,3 +1,5 @@
+import {createMessage} from "./MessageGenerator";
+
 export function parse( message, onReceive) {
     console.log(message[0]['text'])
     console.log(message[0]['_id'])
@@ -27,16 +29,7 @@ export function parse( message, onReceive) {
         // this.actionProvider.say(text)
         // const message = [text];
         const new_message  = [
-            {
-                _id: parseInt(message[0]['_id'])+1,
-                text: text,
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'FAQ Bot',
-                    avatar: 'https://i.imgur.com/7k12EPD.png'
-                }
-            }
+            createMessage(text)
         ]
         onReceive(new_message);
     });
