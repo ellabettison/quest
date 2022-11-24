@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, forwardRef, useImperativeHandle, useState} from "react";
 import {GiftedChat, Send} from "react-native-gifted-chat";
 import {parse} from "./MessageParser";
-import {Text, View} from "react-native";
+import {Image, Text, View} from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {createMessage, createMultichoiceMessage} from "./MessageGenerator";
 import {user, detective} from "./MessageGenerator";
@@ -10,44 +10,40 @@ const filterBotMessages = message =>
     !message.system && message.user && message.user._id && message.user._id === 2
 const findStep = step => message => message._id === step
 
-class MessageScreen extends Component {
-
-    state = {
-        messages: [
-            createMultichoiceMessage(text="Hi", choices=[
-                {
-                    title:"Hi",
-                    value:"greet"
-                },
-                {
-                    title:"Hello",
-                    value:"greet2"
-                }
-            ]),
-            createMessage("Hello there, I am a detective"),
-        ],
-        unseenMessages:0
-    };
+export const MessageScreen = forwardRef((props, ref) => {
+    
+    // const [messages, setMessages] = useState([]);
     
 
-    onSend(messages = []) {
-        this.setState(previousState => ({
-            messages: GiftedChat.append(previousState.messages, messages)
-        }));
-        parse(messages, this.onReceive.bind(this));
+    // function onSend(new_mess = []) {
+    //     setMessages(
+    //         GiftedChat.append(this.props.messages, new_mess)
+    //     );
+    //     props.triggerNext()
+    //     // parse(messages, onReceive.bind(this));
+    //
+    // }
+    //
+    // function onReceive(message) {
+    //     console.log("received message!!" + message);
+    //     GiftedChat.append(messages, message)
+    //     console.log(messages.length);
+    //     this.props.updateMessages(messages.length);
+    // }
+    //
+    // useImperativeHandle(ref, () => ({
+    //     onReceive(message) {
+    //         console.log("received message!!" + message);
+    //         GiftedChat.append(messages, message)
+    //         // this.setState(previousState => ({
+    //         //     messages: GiftedChat.append(previousState.messages, message)
+    //         // }));
+    //         console.log(messages.length);
+    //         // this.props.updateMessages(messages.length);
+    //     }
+    // }))
 
-    }
-
-    onReceive(message){
-        console.log("received message!!"+message);
-        this.setState(previousState => ({
-            messages: GiftedChat.append(previousState.messages, message)
-        }));
-        console.log(this.state.messages.length);
-        this.props.updateMessages(this.state.messages.length);
-    }
-
-    onQuickReply = replies => {
+    function onQuickReply(replies) {
         const createdAt = new Date()
         if (replies.length === 1) {
             this.onSend([
@@ -72,31 +68,30 @@ class MessageScreen extends Component {
         }
     }
 
-    renderQuickReplySend = () => <Text>{' custom send =>'}</Text>
+    function renderQuickReplySend() {return <Text>{' custom send =>'}</Text>}
 
-    renderSend = (props) => (
-        <Send {...props} containerStyle={{ justifyContent: 'center' }}>
-            <MaterialIcons size={30} color={'tomato'} name={'send'} />
+    function renderSend (props)
+    {
+        return <Send {...props} containerStyle={{justifyContent: 'center'}}>
+            <MaterialIcons size={30} color={'tomato'} name={'send'}/>
         </Send>
-    )
-
-    render() {
+    }
+    
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
                 <GiftedChat
-                    messages={this.state.messages}
-                    onSend={messages => this.onSend(messages)}
+                    messages={props.messages}
+                    onSend={messages => {props.addMessage(messages); (props.userSentMessage(messages))}}
                     user={{
                         _id: 1
                     }}
-                    onQuickReply={this.onQuickReply}
-                    renderQuickReplySend={this.renderQuickReplySend}
-                    renderSend={this.renderSend}
+                    onQuickReply={onQuickReply}
+                    renderQuickReplySend={renderQuickReplySend}
+                    renderSend={renderSend}
                 />
             </View>
         );
-    }
 
-}
+})
 
 export default MessageScreen

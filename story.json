@@ -1,0 +1,61 @@
+{
+  "story": [
+    {
+      "messages": [],
+      "evidence_to_trigger": [],
+    "next_stage_req": {
+      "type": "none"
+    }},
+    {
+      
+      "messages": [
+        {
+          "type": "message",
+          "text": "Hi, welcome to the quest"
+        },
+        {
+          "type": "message",
+          "text": "The most recent photo of the victim has been sent to your evidence page"
+        }
+      ],
+      "evidence_to_trigger": [
+        {
+          "id": 0,
+        "name": "Photo of victim",
+        "asset_name": "anne"
+      } 
+      ],
+      "next_stage_req": {
+        "type": "none"
+      }
+    },
+    {
+      "messages": [
+        {
+          "type": "message",
+          "text": "Can you find out the victim's name for me?"
+        }
+      ],
+      "evidence_to_trigger": [
+      ],
+      "next_stage_req": {
+        "type": "keyword",
+        "answer": "anne"
+      }
+    },
+
+    {
+      "messages": [
+        {
+          "type": "message",
+          "text": "Well done, you're correct!"
+        }
+      ],
+      "evidence_to_trigger": [
+      ],
+      "next_stage_req": {
+        "type": "none"
+      }
+    }
+  ]
+}

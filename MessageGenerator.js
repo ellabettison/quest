@@ -1,3 +1,7 @@
+import anne from './public/anne.jpg'
+import magnifier from './assets/magnifier.png'
+import {Image} from "react-native";
+
 export const user = {
     _id: 1,
     name: 'Developer',
@@ -32,12 +36,14 @@ export function createMessage(text){
     }
 }
 
-export function createImageMessage(text, image_url){
-    return {
-        _id: Math.round(Math.random() * 1000000),
-        text: text,
-        createdAt: new Date(),
-        image: 'https://facebook.github.io/react/img/logo_og.png',
-        user: detective,
-    }
-}
+// export function createImageMessage(text, image_id){
+//     return {
+//         _id: Math.round(Math.random() * 1000000),
+//         text: text,
+//         createdAt: new Date(),
+//         // image:book,
+//         renderMessageImage:() =>{ return <Image source={book}/>},
+//         imageProps: {src:book, source:book},
+//         user: detective,
+//     }
+// }
