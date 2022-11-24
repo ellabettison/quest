@@ -1,13 +1,13 @@
 import React, {useRef, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MessageScreen from './MessageScreen'
-import {EvidenceScreen} from "./EvidenceScreen";
 import {doNextStory, checkIfCanProceed} from "./StoryGenerator";
 import {GiftedChat} from "react-native-gifted-chat";
 import {createMessage, user} from "./MessageGenerator";
 import story from "./story.json";
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { AppNavigator } from './navigation.component';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,38 +50,12 @@ const App = () => {
     
     return (
         
-        <NavigationContainer>
-            {/*<StoryGenerator ref={storyRef} addMessage={addMessage} addEvidence={addEvidence}/>*/}
-          <Tab.Navigator screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
-                  let iconName;
-
-                  if (route.name === 'Messages') {
-                      iconName = focused
-                          ? 'chatbubbles'
-                          : 'chatbubbles-outline';
-                  } else if (route.name === 'Evidence') {
-                      iconName = focused ? 'search' : 'search-outline';
-                  }
-
-                  return <Ionicons name={iconName} size={size} color={color} />;
-              },
-              tabBarActiveTintColor: 'tomato',
-              tabBarInactiveTintColor: 'gray',
-          })}>
-            <Tab.Screen name="Messages" children={()=><MessageScreen ref={messageRef} 
-                                                                     messages={messages} 
-                                                                     userSentMessage={userSentMessage} 
-                                                                     addMessage={addMessage} 
-                                                                     updateMessages={setMessageScreenUnseenMessages} 
-                                                                     triggerNext={userSentMessage}/>} 
-                        options={{ tabBarBadge: messages.length }}/>
-            <Tab.Screen name="Evidence" children={()=><EvidenceScreen ref={evidenceRef} 
-                                                                      items={items} 
-                                                                      updateMessages={setEvidenceScreenUnseenMessages}/>} 
-                        options={{ tabBarBadge: items.length }}/>
-          </Tab.Navigator>
-        </NavigationContainer>
+        <>
+            <IconRegistry icons={EvaIconsPack}/>
+            <ApplicationProvider {...eva} theme={eva.light}>
+                <AppNavigator/>
+            </ApplicationProvider>
+        </>
     )
 }
 

@@ -1,47 +1,20 @@
-import React, {Component, forwardRef, useImperativeHandle, useState} from "react";
+import React from "react";
 import {GiftedChat, Send} from "react-native-gifted-chat";
-import {parse} from "./MessageParser";
 import {Image, Text, View} from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import {createMessage, createMultichoiceMessage} from "./MessageGenerator";
 import {user, detective} from "./MessageGenerator";
+import { SafeAreaView } from 'react-native';
+import { Button, Divider, Layout, TopNavigation } from '@ui-kitten/components';
 
 const filterBotMessages = message =>
     !message.system && message.user && message.user._id && message.user._id === 2
 const findStep = step => message => message._id === step
 
-export const MessageScreen = forwardRef((props, ref) => {
-    
-    // const [messages, setMessages] = useState([]);
-    
+export const MessageScreen = ({ props, navigation }) => {
 
-    // function onSend(new_mess = []) {
-    //     setMessages(
-    //         GiftedChat.append(this.props.messages, new_mess)
-    //     );
-    //     props.triggerNext()
-    //     // parse(messages, onReceive.bind(this));
-    //
-    // }
-    //
-    // function onReceive(message) {
-    //     console.log("received message!!" + message);
-    //     GiftedChat.append(messages, message)
-    //     console.log(messages.length);
-    //     this.props.updateMessages(messages.length);
-    // }
-    //
-    // useImperativeHandle(ref, () => ({
-    //     onReceive(message) {
-    //         console.log("received message!!" + message);
-    //         GiftedChat.append(messages, message)
-    //         // this.setState(previousState => ({
-    //         //     messages: GiftedChat.append(previousState.messages, message)
-    //         // }));
-    //         console.log(messages.length);
-    //         // this.props.updateMessages(messages.length);
-    //     }
-    // }))
+    const navigateDetails = () => {
+        navigation.navigate('Details');
+    };
 
     function onQuickReply(replies) {
         const createdAt = new Date()
@@ -78,20 +51,24 @@ export const MessageScreen = forwardRef((props, ref) => {
     }
     
         return (
-            <View style={{flex: 1, backgroundColor: '#fff'}}>
-                <GiftedChat
-                    messages={props.messages}
-                    onSend={messages => {props.addMessage(messages); (props.userSentMessage(messages))}}
-                    user={{
-                        _id: 1
-                    }}
-                    onQuickReply={onQuickReply}
-                    renderQuickReplySend={renderQuickReplySend}
-                    renderSend={renderSend}
-                />
-            </View>
+            <SafeAreaView style={{ flex: 1 }}>
+                <TopNavigation title='MyApp' alignment='center'/>
+                <Divider/>
+                <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <GiftedChat
+                        messages={props.messages}
+                        onSend={messages => {props.addMessage(messages); (props.userSentMessage(messages))}}
+                        user={{
+                            _id: 1
+                        }}
+                        onQuickReply={onQuickReply}
+                        renderQuickReplySend={renderQuickReplySend}
+                        renderSend={renderSend}
+                    />
+                </Layout>
+            </SafeAreaView>
         );
 
-})
+}
 
 export default MessageScreen
