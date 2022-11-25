@@ -27,19 +27,32 @@ const TopTabBar = ({ navigation, state }) => (
     <TabBar
         selectedIndex={state.index}
         onSelect={index => navigation.navigate(state.routeNames[index])}>
-        <Tab title='USERS'/>
-        <Tab title='ORDERS'/>
+        <Tab title='MESSAGES'/>
+        <Tab title='EVIDENCE'/>
     </TabBar>
 );
 
-export const TabNavigator = (props) => (
-    <Navigator tabBar={props => <TopTabBar {...props} />}>
-        <Screen name='Messages' component={() => <MessageScreen addMessage={props.addMessage}
-                                                                addEvidence={props.addEvidence}
-                                                                messages={props.messages}
-                                                                userSentMessage={props.userSentMessage}/>}/>
-        <Screen name='Evidence' component={() => <EvidenceScreen items={props.items}/>}/>
-        
-    </Navigator>
-);
+
+
+export const TabNavigator = (props) => {
+
+    const MessageScreenComp = () => (
+        <MessageScreen addMessage={props.addMessage}
+                       addEvidence={props.addEvidence}
+                       messages={props.messages}
+                       userSentMessage={props.userSentMessage} />
+    );
+
+    const EvidenceScreenComp = () => (
+        <EvidenceScreen items={props.items} />
+    );
+
+    return (
+        <Navigator tabBar={props => <TopTabBar {...props} />}>
+            <Screen name='Messages' component={MessageScreenComp}/>
+            <Screen name='Evidence' component={EvidenceScreenComp}/>
+
+        </Navigator>
+    )
+}
 

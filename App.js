@@ -17,16 +17,9 @@ const App = () => {
 
     let story = require('./story.json');
 
-    const [evidenceScreenUnseenMessages, setEvidenceScreenUnseenMessages] = useState(0);
-    const [messageScreenUnseenMessages, setMessageScreenUnseenMessages] = useState(0);
-
     const [items, setItems] = useState([]);
     const [messages, setMessages] = useState([]);
     const [storyLoc, setStoryLoc] = useState(1);
-    
-    const messageRef = useRef();
-    const evidenceRef = useRef();
-    const storyRef = useRef();
     
     function userSentMessage(message){
         console.log(message[0]["text"] + storyLoc)
@@ -51,13 +44,13 @@ const App = () => {
     }
     
     return (
-    // 
         <SafeAreaView style={{ flex: 1 }}>
             <ApplicationProvider {...eva} theme={eva.light}>
             <TopNavigation title='MyApp' alignment='center'/>
         <NavigationContainer>
             
-                <TabNavigator items={items} 
+                <TabNavigator
+                    items={items} 
                               addMessage={addMessage} 
                               addEvidence={addEvidence} 
                               userSentMessage={userSentMessage} 
@@ -67,7 +60,6 @@ const App = () => {
             </NavigationContainer>
             </ApplicationProvider>
         </SafeAreaView>
-    // 
     )
 }
 
