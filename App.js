@@ -5,9 +5,11 @@ import {GiftedChat} from "react-native-gifted-chat";
 import {createMessage, user} from "./MessageGenerator";
 import story from "./story.json";
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import {ApplicationProvider, IconRegistry, TopNavigation} from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { AppNavigator } from './navigation.component';
+import { TabNavigator } from './navigation.component';
+import { NavigationContainer } from '@react-navigation/native';
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,13 +51,23 @@ const App = () => {
     }
     
     return (
-        
-        <>
-            <IconRegistry icons={EvaIconsPack}/>
+    // 
+        <SafeAreaView style={{ flex: 1 }}>
             <ApplicationProvider {...eva} theme={eva.light}>
-                <AppNavigator/>
+            <TopNavigation title='MyApp' alignment='center'/>
+        <NavigationContainer>
+            
+                <TabNavigator items={items} 
+                              addMessage={addMessage} 
+                              addEvidence={addEvidence} 
+                              userSentMessage={userSentMessage} 
+                              messages={messages}
+                />
+            
+            </NavigationContainer>
             </ApplicationProvider>
-        </>
+        </SafeAreaView>
+    // 
     )
 }
 

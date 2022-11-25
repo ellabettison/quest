@@ -11,37 +11,15 @@ import { Dimensions } from "react-native";
 const width = Dimensions.get('window').width; //full width
 const height = Dimensions.get('window').height; //full height
 
-const BackIcon = (props) => (
-    <Icon {...props} name='arrow-back' />
-);
 
-export const  EvidenceScreen = ({ navigation }) => {
-
-    // const [items, setItems] = useState([]);
-    //
-    // useImperativeHandle(ref, () => ({
-    //     addEvidence(item) {
-    //         items.push(item)
-    //         // this.props.updateMessages(items.length)
-    //     }
-    // }));
-    const navigateBack = () => {
-        navigation.goBack();
-    };
-
-    const BackAction = () => (
-        <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
-    );
+export const  EvidenceScreen = ({items}) => {
     
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <TopNavigation title='MyApp' alignment='center' accessoryLeft={BackAction}/>
-                <Divider/>
                 <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ScrollView ref={ref => {
                         this.sv = ref;
                     }} contentContainerStyle={{paddingVertical: 20}} onTouchStart={this.log}>
-                        {props.items.map(({id, name, asset_name}) => (
+                        {items.map(({id, name, asset_name}) => (
                             <View style={{flex: 1,
                                 flexDirection: 'column',
                                 flexWrap: 'wrap',
@@ -71,6 +49,5 @@ export const  EvidenceScreen = ({ navigation }) => {
                         ))}
                     </ScrollView>
                 </Layout>
-            </SafeAreaView>
         );
 }
